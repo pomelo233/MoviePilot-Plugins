@@ -20,9 +20,9 @@ class NapcatNoti(_PluginBase):
     # 插件版本
     plugin_version = "1.0"
     # 插件作者
-    plugin_author = "imaliang"
+    plugin_author = "pomelo233"
     # 作者主页
-    author_url = "https://github.com/imaliang"
+    author_url = "https://github.com/pomelo233"
     # 插件配置项ID前缀
     plugin_config_prefix = "napcatnoti_"
     # 加载顺序
