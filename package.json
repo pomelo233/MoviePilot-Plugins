@@ -11,8 +11,8 @@
       "v1.0": "napcat发送通知"
     }
   },
-  "CnlangSignin": {
-    "name": "国语视界论坛签到",
+  "CnlangSigninV2": {
+    "name": "国语视界论坛签到2",
     "description": "国语视界论坛自动签到，支持随机延迟",
     "version": "1.2",
     "icon": "https://raw.githubusercontent.com/imaliang/MoviePilot-Plugins/main/icons/cnlang.png",

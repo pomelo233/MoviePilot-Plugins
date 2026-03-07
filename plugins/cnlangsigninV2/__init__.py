@@ -17,9 +17,9 @@ from app.utils.http import RequestUtils
 from app.schemas import Notification, NotificationType, MessageChannel
 
 
-class CnlangSignin(_PluginBase):
+class CnlangSigninV2(_PluginBase):
     # 插件名称
-    plugin_name = "国语视界签到"
+    plugin_name = "国语视界签到2"
     # 插件描述
     plugin_desc = "国语视界论坛自动签到，支持随机延迟。"
     # 插件图标
