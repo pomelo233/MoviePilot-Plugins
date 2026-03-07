@@ -19,7 +19,7 @@ class Napcat(_PluginBase):
     # 插件图标
     plugin_icon = "115.png"
     # 插件版本
-    plugin_version = "1.0.0"
+    plugin_version = "1.0"
     # 插件作者
     plugin_author = "pomelo233"
     # 作者主页
@@ -27,7 +27,7 @@ class Napcat(_PluginBase):
     # 插件配置项ID前缀
     plugin_config_prefix = "napcat_"
     # 加载顺序
-    plugin_order = 14
+    plugin_order = 6
     # 可使用的用户级别
     auth_level = 1
 
