@@ -1,4 +1,16 @@
 {
+  "Napcat": {
+    "name": "napcat通知",
+    "description": "napcat发送通知",
+    "labels": "站点",
+    "version": "1.0.0",
+    "icon": "115.png",
+    "author": "pomelo233",
+    "level": 1,
+    "history": {
+      "v1.0": "napcat发送通知"
+    }
+  },
   "CnlangSignin": {
     "name": "国语视界论坛签到",
     "description": "国语视界论坛自动签到，支持随机延迟",
