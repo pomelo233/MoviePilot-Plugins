@@ -11,7 +11,7 @@ from app.schemas.types import EventType, NotificationType
 from app.utils.http import RequestUtils
 
 
-class Napcat(_PluginBase):
+class NapcatNoti(_PluginBase):
     # 插件名称
     plugin_name = "napcat通知"
     # 插件描述
@@ -21,11 +21,11 @@ class Napcat(_PluginBase):
     # 插件版本
     plugin_version = "1.0"
     # 插件作者
-    plugin_author = "pomelo233"
+    plugin_author = "imaliang"
     # 作者主页
-    author_url = "https://github.com/pomelo233"
+    author_url = "https://github.com/imaliang"
     # 插件配置项ID前缀
-    plugin_config_prefix = "napcat_"
+    plugin_config_prefix = "napcatnoti_"
     # 加载顺序
     plugin_order = 6
     # 可使用的用户级别

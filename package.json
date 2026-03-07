@@ -1,9 +1,8 @@
 {
-  "Napcat": {
+  "NapcatNoti": {
     "name": "napcat通知",
     "description": "napcat发送通知",
-    "labels": "站点",
-    "version": "1.0.0",
+    "version": "1.0",
     "icon": "115.png",
     "author": "pomelo233",
     "level": 1,
