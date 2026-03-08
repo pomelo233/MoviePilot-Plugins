@@ -6,6 +6,7 @@
     "icon": "115.png",
     "author": "pomelo233",
     "level": 1,
+    "v2": true,
     "history": {
       "v1.0": "napcat发送通知"
     }
