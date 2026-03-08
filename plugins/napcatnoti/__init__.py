@@ -32,7 +32,8 @@ class NapcatNoti(_PluginBase):
 
     # 私有属性
     _enabled = False
-    _token = None
+    _webhook_url = None
+    _method = None
     _msgtypes = []
 
     # 消息处理线程
@@ -50,7 +51,8 @@ class NapcatNoti(_PluginBase):
         self.__event.clear()
         if config:
             self._enabled = config.get("enabled")
-            self._token = config.get("token")
+            self._webhook_url = config.get("webhook_url")
+            self._method = config.get('request_method')
             self._msgtypes = config.get("msgtypes") or []
 
             if self._enabled and self._token:
@@ -73,6 +75,7 @@ class NapcatNoti(_PluginBase):
         """
         拼装插件配置页面，需要返回两块数据：1、页面配置；2、数据结构
         """
+        request_options = ["POST", "GET"]
         # 编历 NotificationType 枚举，生成消息类型选项
         MsgTypeOptions = []
         for item in NotificationType:
@@ -111,15 +114,32 @@ class NapcatNoti(_PluginBase):
                             {
                                 'component': 'VCol',
                                 'props': {
-                                    'cols': 12
+                                    'cols': 12,
+                                    'md': 4
+                                },
+                                'content': [
+                                    {
+                                        'component': 'VSelect',
+                                        'props': {
+                                            'model': 'request_method',
+                                            'label': '请求方式',
+                                            'items': request_options
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                'component': 'VCol',
+                                'props': {
+                                    'cols': 12,
+                                    'md': 8
                                 },
                                 'content': [
                                     {
                                         'component': 'VTextField',
                                         'props': {
-                                            'model': 'token',
-                                            'label': 'IYUU令牌',
-                                            'placeholder': 'IYUUxxx',
+                                            'model': 'webhook_url',
+                                            'label': 'webhook地址'
                                         }
                                     }
                                 ]
@@ -153,7 +173,8 @@ class NapcatNoti(_PluginBase):
             }
         ], {
             "enabled": False,
-            'token': '',
+            "request_method": "POST",
+            "webhook_url": "",
             'msgtypes': []
         }
 
@@ -201,8 +222,12 @@ class NapcatNoti(_PluginBase):
                 continue
             msg_type: NotificationType = msg_body.get("type")
             title = msg_body.get("title")
-            text = msg_body.get("text")
-
+            text = msg_body.get("text") or ''
+            text = '\n\n' + text if text else ''
+            payload = {
+                "user_id": "234902650",
+                "message": f"{title}{text}"
+            }
             # 检查消息类型是否已启用
             if msg_type and self._msgtypes and msg_type.name not in self._msgtypes:
                 logger.info(f"消息类型 {msg_type.value} 未开启消息发送")
@@ -210,24 +235,19 @@ class NapcatNoti(_PluginBase):
 
             # 尝试发送消息
             try:
-                sc_url = "https://iyuu.cn/%s.send?%s" % (self._token, urlencode({"text": title, "desp": text}))
-                res = RequestUtils().get_res(sc_url)
-                if res and res.status_code == 200:
-                    ret_json = res.json()
-                    errno = ret_json.get('errcode')
-                    error = ret_json.get('errmsg')
-                    if errno == 0:
-                        logger.info("IYUU消息发送成功")
-                        # 更新上次发送时间
-                        self.last_send_time = time()
-                    else:
-                        logger.warn(f"IYUU消息发送失败，错误码：{errno}，错误原因：{error}")
-                elif res is not None:
-                    logger.warn(f"IYUU消息发送失败，错误码：{res.status_code}，错误原因：{res.reason}")
+                if self._method == 'POST':
+                    ret = RequestUtils(content_type="application/json").post_res(self._webhook_url, json=payload)
                 else:
-                    logger.warn("IYUU消息发送失败，未获取到返回信息")
-            except Exception as msg_e:
-                logger.error(f"IYUU消息发送失败，{str(msg_e)}")
+                    ret = RequestUtils().get_res(self._webhook_url, params=payload)
+                if ret and ret.status_code == 200:
+                    logger.info(f"发送成功：{self._webhook_url}")
+                    self.last_send_time = time()
+                elif ret is not None:
+                    logger.error(f"发送失败，状态码：{ret.status_code}，返回信息：{ret.text} {ret.reason}")
+                else:
+                    logger.error("发送失败，未获取到返回信息")
+            except Exception as e:
+                logger.error(f"发送请求时发生异常：{e}")
 
             # 标记任务完成
             self.message_queue.task_done()
