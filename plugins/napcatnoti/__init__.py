@@ -55,14 +55,14 @@ class NapcatNoti(_PluginBase):
             self._method = config.get('request_method')
             self._msgtypes = config.get("msgtypes") or []
 
-            if self._enabled and self._token:
+            if self._enabled and self._webhook_url:
                 # 启动处理队列的后台线程
                 self.processing_thread = threading.Thread(target=self.process_queue)
                 self.processing_thread.daemon = True
                 self.processing_thread.start()
 
     def get_state(self) -> bool:
-        return self._enabled and (True if self._token else False)
+        return self._enabled and (True if self._webhook_url else False)
 
     @staticmethod
     def get_command() -> List[Dict[str, Any]]:
