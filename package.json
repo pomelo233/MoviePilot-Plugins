@@ -10,18 +10,5 @@
     "history": {
       "v1.0": "napcat发送通知"
     }
-  },
-  "YuMsg": {
-    "name": "IYUU消息推送",
-    "description": "支持使用IYUU发送消息通知。",
-    "labels": "消息通知1,IYUU2",
-    "version": "1.3",
-    "icon": "bot.png",
-    "author": "pomelo233",
-    "level": 1,
-    "v2": true,
-    "history": {
-      "v1.3": "消息限流发送，以缓解IYUU服务器压力"
-    }
   }
 }
